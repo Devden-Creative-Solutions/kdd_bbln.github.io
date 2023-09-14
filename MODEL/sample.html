@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plane Tracking with OpenCV.js and Babylon.js</title>
+    <script async src="https://docs.opencv.org/master/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs/5.0.0/babylon.js"></script>
+</head>
+<body>
+    <video id="video" autoplay playsinline style="transform: scaleX(-1);"></video>
+    <canvas id="canvas" width="640" height="480"></canvas>
+    <script>
+        let videoElement;
+        let canvasElement;
+        let canvasContext;
+        let captureInterval;
+        let planeDetected = false;
+
+        // Callback when OpenCV.js is ready
+        function onOpenCvReady() {
+            videoElement = document.getElementById("video");
+            canvasElement = document.getElementById("canvas");
+            canvasContext = canvasElement.getContext("2d");
+
+            // Access the user's camera
+            navigator.mediaDevices
+                .getUserMedia({ video: true })
+                .then(function (stream) {
+                    videoElement.srcObject = stream;
+                    videoElement.play();
+                    // Start the frame capture loop
+                    startCapture();
+                })
+                .catch(function (err) {
+                    console.error("Error accessing camera:", err);
+                });
+        }
+
+        // Function to perform OpenCV.js processing on each frame
+        function processFrame() {
+            canvasContext.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+            let src = cv.imread(canvasElement);
+
+            // Perform plane detection using OpenCV.js (simplified example)
+            if (!planeDetected) {
+                const gray = new cv.Mat();
+                cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
+                const contours = new cv.MatVector();
+                const hierarchy = new cv.Mat();
+                cv.findContours(gray, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
+
+                // Check if a plane is detected (e.g., based on contour area)
+                if (contours.size() > 0) {
+                    planeDetected = true;
+                    console.log("Plane detected!");
+                }
+
+                gray.delete();
+                contours.delete();
+                hierarchy.delete();
+            }
+
+            // Display the processed frame
+            cv.imshow(canvasElement, src);
+            src.delete();
+
+            // Request the next frame
+            requestAnimationFrame(processFrame);
+        }
+
+        // Start the frame capture and processing loop
+        function startCapture() {
+            captureInterval = requestAnimationFrame(processFrame);
+        }
+
+        // Stop the frame capture and processing loop on page unload
+        window.addEventListener("beforeunload", () => {
+            if (captureInterval) {
+                cancelAnimationFrame(captureInterval);
+            }
+        });
+
+        // Babylon.js initialization
+        const canvas = document.createElement("canvas");
+        document.body.appendChild(canvas);
+        const engine = new BABYLON.Engine(canvas, true);
+        const scene = new BABYLON.Scene(engine);
+        camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene);
+            camera.attachControl(canvasElement, true);
+
+        // Create a Babylon.js plane (customize as needed)
+        const plane = BABYLON.MeshBuilder.CreatePlane("plane", { size: 1 }, scene);
+        plane.position.y = 0.5;
+
+        // Babylon.js render loop
+        engine.runRenderLoop(() => {
+            scene.render();
+        });
+    </script>
+</body>
+</html>
