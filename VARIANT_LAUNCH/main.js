@@ -131,40 +131,40 @@ const createScene = async () => {
     }
   });
 
-  mats = [];
-  let speeder = model.meshes[0];
-  // get materials from each mesh
-  model.meshes.forEach((mesh) => {
-    if (mesh.material) {
-      mats.push(mesh.material);
-    }
-  });
+  // mats = [];
+  // let speeder = model.meshes[0];
+  // // get materials from each mesh
+  // model.meshes.forEach((mesh) => {
+  //   if (mesh.material) {
+  //     mats.push(mesh.material);
+  //   }
+  // });
 
   //create dummy object and add speeder as child
-  const speederParent = new BABYLON.Mesh("speederParent", scene);
-  speeder.parent = speederParent;
+  // const speederParent = new BABYLON.Mesh("speederParent", scene);
+  // speeder.parent = speederParent;
 
-  //offset to make it feel like speeder is in center of screen when placing
-  speeder.position.z = -1;
-  speederParent.position.z = 1;
+  // //offset to make it feel like speeder is in center of screen when placing
+  // speeder.position.z = -1;
+  // speederParent.position.z = 1;
 
-  // start hidden until we find a  hittest
-  speederParent.isVisible = false;
+  // // start hidden until we find a  hittest
+  // speederParent.isVisible = false;
 
-  // remove duplicates
-  mats = [...new Set(mats)];
+  // // remove duplicates
+  // mats = [...new Set(mats)];
 
-  //make speeder transparent until placed
-  setTransparency(true);
+  // //make speeder transparent until placed
+  // setTransparency(true);
 
   //get material named "Engine"
   
 
   //animate engine material UV offsets
-  scene.registerBeforeRender(() => {
-    engineMat.emissiveTexture.vOffset += scene.deltaTime / 500;
-    time += scene.deltaTime / 100;
-  });
+  // scene.registerBeforeRender(() => {
+  //   engineMat.emissiveTexture.vOffset += scene.deltaTime / 500;
+  //   time += scene.deltaTime / 100;
+  // });
 
   //create bob up and down hovering animation
   // const bob = new BABYLON.Animation(
@@ -176,20 +176,20 @@ const createScene = async () => {
   // );
 
   //apply to speeder
-  const keys = [];
-  keys.push({
-    frame: 0,
-    value: speeder.position.y, // Start from current y position
-  });
-  keys.push({
-    frame: 30,
-    value: speeder.position.y + 0.1, // Go up
-  });
-  keys.push({
-    frame: 60,
-    value: speeder.position.y, // Back to original y position
-  });
-  bob.setKeys(keys);
+  // const keys = [];
+  // keys.push({
+  //   frame: 0,
+  //   value: speeder.position.y, // Start from current y position
+  // });
+  // keys.push({
+  //   frame: 30,
+  //   value: speeder.position.y + 0.1, // Go up
+  // });
+  // keys.push({
+  //   frame: 60,
+  //   value: speeder.position.y, // Back to original y position
+  // });
+  // bob.setKeys(keys);
 
   // Create an easing function
   // const easingFunction = new BABYLON.SineEase();
@@ -203,31 +203,31 @@ const createScene = async () => {
   // speeder.animations = speeder.animations || []; // Ensure animations array exists
   // speeder.animations.push(bob);
 
-  scene.beginAnimation(speeder, 0, 60, true);
+  // scene.beginAnimation(speeder, 0, 60, true);
 
-  xrTest.onHitTestResultObservable.add((results) => {
-    if (results.length) {
-      // update speeder to hit point if not placed
-      if (!placed) {
-        speederParent.isVisible = true;
-        var hitTest = results[0];
-        hitTest.transformationMatrix.decompose(
-          speederParent.scaling,
-          speederParent.rotationQuaternion,
-          speederParent.position
-        );
-        // if the user has requested placement, place the speeder
-        if (placeRequest) {
-          setTransparency(false);
-          placed = true;
-          placeRequest = false;
-        }
-      }
-    } else {
-      // hide speeder if no hit and not placed
-      if (!placed) speederParent.isVisible = false;
-    }
-  });
+  // xrTest.onHitTestResultObservable.add((results) => {
+  //   if (results.length) {
+  //     // update speeder to hit point if not placed
+  //     if (!placed) {
+  //       speederParent.isVisible = true;
+  //       var hitTest = results[0];
+  //       hitTest.transformationMatrix.decompose(
+  //         speederParent.scaling,
+  //         speederParent.rotationQuaternion,
+  //         speederParent.position
+  //       );
+  //       // if the user has requested placement, place the speeder
+  //       if (placeRequest) {
+  //         setTransparency(false);
+  //         placed = true;
+  //         placeRequest = false;
+  //       }
+  //     }
+  //   } else {
+  //     // hide speeder if no hit and not placed
+  //     if (!placed) speederParent.isVisible = false;
+  //   }
+  // });
 
   return scene;
 };
