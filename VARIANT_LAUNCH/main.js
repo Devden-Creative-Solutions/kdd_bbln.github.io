@@ -1,8 +1,8 @@
-import "qr.js";
-import "style.css";
+import "/qr.js";
+import "/style.css";
 import * as BABYLON from "@babylonjs/core";
 import "@babylonjs/loaders/glTF";
-import { TrackingPrompt } from "tracking-prompt.js";
+import { TrackingPrompt } from "/tracking-prompt.js";
 
 var engine,
   scene,
