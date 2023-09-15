@@ -1,6 +1,6 @@
 import "/qr.js";
 import "/style.css";
-import * as BABYLON from "@babylonjs/core";
+import * as BABYLON from "https://cdn.babylonjs.com/babylon.js";  //https://cdn.babylonjs.com/babylon.js
 import "@babylonjs/loaders/glTF";
 import { TrackingPrompt } from "/tracking-prompt.js";
 
