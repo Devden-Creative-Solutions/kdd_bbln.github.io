@@ -122,14 +122,14 @@ const createScene = async () => {
   engine.hideLoadingUI();
 
   // detect touch
-  scene.onPointerObservable.add((pointerInfo) => {
-    if (pointerInfo.type === BABYLON.PointerEventTypes.POINTERDOWN) {
-      //check if not in xr session or already placed
-      if (!xr.baseExperience.state === BABYLON.WebXRState.IN_XR || placed)
-        return;
-      placeRequest = true;
-    }
-  });
+  // scene.onPointerObservable.add((pointerInfo) => {
+  //   if (pointerInfo.type === BABYLON.PointerEventTypes.POINTERDOWN) {
+  //     //check if not in xr session or already placed
+  //     if (!xr.baseExperience.state === BABYLON.WebXRState.IN_XR || placed)
+  //       return;
+  //     placeRequest = true;
+  //   }
+  // });
 
   // mats = [];
   // let speeder = model.meshes[0];
@@ -232,8 +232,8 @@ const createScene = async () => {
   return scene;
 };
 
-const setTransparency = (transparent) => {
-  mats.forEach((mat) => {
-    if (mat.name !== "engines") mat.alpha = transparent ? 0.5 : 1;
-  });
-};
+// const setTransparency = (transparent) => {
+//   mats.forEach((mat) => {
+//     if (mat.name !== "engines") mat.alpha = transparent ? 0.5 : 1;
+//   });
+// };
