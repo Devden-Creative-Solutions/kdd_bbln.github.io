@@ -1,8 +1,8 @@
-import "./qr.js";
-import "./style.css";
+import "qr.js";
+import "style.css";
 import * as BABYLON from "@babylonjs/core";
 import "@babylonjs/loaders/glTF";
-import { TrackingPrompt } from "./tracking-prompt.js";
+import { TrackingPrompt } from "tracking-prompt.js";
 
 var engine,
   scene,
@@ -64,11 +64,11 @@ const createScene = async () => {
   // This attaches the camera to the canvas
   camera.attachControl(canvas, true);
 
-  const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
-    "/environmentSpecular.env",
-    scene
-  );
-  scene.environmentTexture = hdrTexture;
+  // const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
+  //   "/environmentSpecular.env",
+  //   scene
+  // );
+  // scene.environmentTexture = hdrTexture;
 
   scene.environmenTexture = null;
   // This creates a light
@@ -167,13 +167,13 @@ const createScene = async () => {
   });
 
   //create bob up and down hovering animation
-  const bob = new BABYLON.Animation(
-    "bob",
-    "position.y",
-    30,
-    BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-    BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
-  );
+  // const bob = new BABYLON.Animation(
+  //   "bob",
+  //   "position.y",
+  //   30,
+  //   BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+  //   BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
+  // );
 
   //apply to speeder
   const keys = [];
@@ -192,15 +192,15 @@ const createScene = async () => {
   bob.setKeys(keys);
 
   // Create an easing function
-  const easingFunction = new BABYLON.SineEase();
+  // const easingFunction = new BABYLON.SineEase();
 
-  // Set the easing function to loop
-  easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+  // // Set the easing function to loop
+  // easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
 
   // Assign the easing function to the animation
   // bob.setEasingFunction(easingFunction);
 
-  speeder.animations = speeder.animations || []; // Ensure animations array exists
+  // speeder.animations = speeder.animations || []; // Ensure animations array exists
   // speeder.animations.push(bob);
 
   scene.beginAnimation(speeder, 0, 60, true);
